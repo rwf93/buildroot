@@ -62,7 +62,6 @@ endchoice
 config BR2_RISCV_USE_MMU
 	bool "MMU support"
 	default y
-	depends on BR2_RISCV_64
 	select BR2_USE_MMU
 	help
 	  Enable this option if your RISC-V core has a MMU (Memory

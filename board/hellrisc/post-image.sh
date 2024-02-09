@@ -1,12 +1,15 @@
 #!/bin/bash
+# This file was taken Was taken from boards/qemu and modified for virtualized testing purposes.
+
+echo "Creating QEMU Scripts"
 
 QEMU_BOARD_DIR="$(dirname "$0")"
 DEFCONFIG_NAME="$(basename "$2")"
 README_FILES="${QEMU_BOARD_DIR}/*/readme.txt"
 START_QEMU_SCRIPT="${BINARIES_DIR}/start-qemu.sh"
 
-if [[ "${DEFCONFIG_NAME}" =~ ^"qemu_*" ]]; then
-    # Not a Qemu defconfig, can't test.
+if [[ "${DEFCONFIG_NAME}" =~ ^"hellrisc_*" ]]; then
+    # Not a hellrisc defconfig, can't test.
     exit 0
 fi
 
@@ -32,15 +35,7 @@ QEMU_CMD_LINE="${QEMU_CMD_LINE//-serial stdio/}"
 QEMU_CMD_LINE="$(sed -r -e 's/^.*(qemu-system-)/\1/' <<<"${QEMU_CMD_LINE}")"
 
 # Disable graphical output and redirect serial I/Os to console
-case ${DEFCONFIG_NAME} in
-  (qemu_sh4eb_r2d_defconfig|qemu_sh4_r2d_defconfig)
-    # Special case for SH4
-    SERIAL_ARGS="-serial stdio -display none"
-    ;;
-  (*)
-    SERIAL_ARGS="-nographic"
-    ;;
-esac
+SERIAL_ARGS="-nographic"
 
 sed -e "s|@SERIAL_ARGS@|${SERIAL_ARGS}|g" \
     -e "s|@DEFAULT_ARGS@|${DEFAULT_ARGS}|g" \
@@ -49,3 +44,4 @@ sed -e "s|@SERIAL_ARGS@|${SERIAL_ARGS}|g" \
     <"${QEMU_BOARD_DIR}/start-qemu.sh.in" \
     >"${START_QEMU_SCRIPT}"
 chmod +x "${START_QEMU_SCRIPT}"
+

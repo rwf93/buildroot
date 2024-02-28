@@ -1,0 +1,175 @@
+diff --git a/config.sub b/config.sub
+index 38f3d037a78..f03ec6b54bc 100755
+--- a/config.sub
++++ b/config.sub
+@@ -883,6 +883,10 @@ case $basic_machine in
+ 		cpu=power
+ 		vendor=ibm
+ 		;;
++	xenon)
++		cpu=powerpc64
++		basic_os=linux
++		;;
+ 	ps2)
+ 		cpu=i386
+ 		vendor=ibm
+diff --git a/gcc/config/rs6000/altivec.md b/gcc/config/rs6000/altivec.md
+index 4d4c94ff0a0..3455a4cf32d 100644
+--- a/gcc/config/rs6000/altivec.md
++++ b/gcc/config/rs6000/altivec.md
+@@ -1009,7 +1009,7 @@
+ 		      (match_operand:VIshort 2 "register_operand" "v")
+                       (match_operand:V4SI 3 "register_operand" "v")]
+ 		     UNSPEC_VMSUMU))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmsumu<VI_char>m %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1029,7 +1029,7 @@
+ 		      (match_operand:VIshort 2 "register_operand" "v")
+                       (match_operand:V4SI 3 "register_operand" "v")]
+ 		     UNSPEC_VMSUMM))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmsumm<VI_char>m %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1039,7 +1039,7 @@
+ 		      (match_operand:V8HI 2 "register_operand" "v")
+                       (match_operand:V4SI 3 "register_operand" "v")]
+ 		     UNSPEC_VMSUMSHM))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmsumshm %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1050,7 +1050,7 @@
+                       (match_operand:V4SI 3 "register_operand" "v")]
+ 		     UNSPEC_VMSUMUHS))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmsumuhs %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1061,7 +1061,7 @@
+                       (match_operand:V4SI 3 "register_operand" "v")]
+ 		     UNSPEC_VMSUMSHS))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmsumshs %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1122,7 +1122,7 @@
+                       (match_operand:V8HI 3 "register_operand" "v")]
+ 		     UNSPEC_VMHADDSHS))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmhaddshs %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1133,7 +1133,7 @@
+                       (match_operand:V8HI 3 "register_operand" "v")]
+ 		     UNSPEC_VMHRADDSHS))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmhraddshs %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1142,7 +1142,7 @@
+         (plus:V8HI (mult:V8HI (match_operand:V8HI 1 "register_operand" "v")
+ 		   	      (match_operand:V8HI 2 "register_operand" "v"))
+ 		   (match_operand:V8HI 3 "register_operand" "v")))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmladduhm %0,%1,%2,%3"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1668,7 +1668,7 @@
+         (unspec:V8HI [(match_operand:V16QI 1 "register_operand" "v")
+                       (match_operand:V16QI 2 "register_operand" "v")]
+ 		     UNSPEC_VMULOUB))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmuloub %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1677,7 +1677,7 @@
+         (unspec:V8HI [(match_operand:V16QI 1 "register_operand" "v")
+                       (match_operand:V16QI 2 "register_operand" "v")]
+ 		     UNSPEC_VMULESB))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmulesb %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1686,7 +1686,7 @@
+         (unspec:V8HI [(match_operand:V16QI 1 "register_operand" "v")
+                       (match_operand:V16QI 2 "register_operand" "v")]
+ 		     UNSPEC_VMULOSB))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmulosb %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1704,7 +1704,7 @@
+         (unspec:V4SI [(match_operand:V8HI 1 "register_operand" "v")
+                       (match_operand:V8HI 2 "register_operand" "v")]
+ 		     UNSPEC_VMULOUH))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmulouh %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -1722,7 +1722,7 @@
+         (unspec:V4SI [(match_operand:V8HI 1 "register_operand" "v")
+                       (match_operand:V8HI 2 "register_operand" "v")]
+ 		     UNSPEC_VMULOSH))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vmulosh %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -2083,7 +2083,7 @@
+                       (match_operand:V4SI 2 "register_operand" "v")]
+ 		     UNSPEC_VSUM4UBS))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vsum4ubs %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -2093,7 +2093,7 @@
+                       (match_operand:V4SI 2 "register_operand" "v")]
+ 		     UNSPEC_VSUM4S))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vsum4s<VI_char>s %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+@@ -2158,7 +2158,7 @@
+                       (match_operand:V4SI 2 "register_operand" "v")]
+ 		     UNSPEC_VSUMSWS_DIRECT))
+    (set (reg:SI VSCR_REGNO) (unspec:SI [(const_int 0)] UNSPEC_SET_VSCR))]
+-  "TARGET_ALTIVEC"
++  "(TARGET_ALTIVEC && 0)"
+   "vsumsws %0,%1,%2"
+   [(set_attr "type" "veccomplex")])
+ 
+diff --git a/libstdc++-v3/configure b/libstdc++-v3/configure
+index 21abaeb0778..af74775d90e 100755
+--- a/libstdc++-v3/configure
++++ b/libstdc++-v3/configure
+@@ -11563,6 +11563,7 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu* | uclinuxfdpiceabi)
+   finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
+   shlibpath_var=LD_LIBRARY_PATH
+   shlibpath_overrides_runpath=no
++  lt_cv_shlibpath_overrides_runpath=no
+ 
+   # Some binutils ld are patched to set DT_RUNPATH
+   if ${lt_cv_shlibpath_overrides_runpath+:} false; then :
